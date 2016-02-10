@@ -8,16 +8,16 @@ define( function( ){
 			for( i=1; i < l ;i++ ){
 				var obj = arguments[i]
 				for( var k in obj){
-				  if( obj.hasOwnProperty( k )){
-				     o[k] = obj[k]
-				  }
+					if( obj.hasOwnProperty( k )){
+						 o[k] = obj[k]
+					}
 				}
 			}
 			return o
 		},
 		map: function( v, cb ){
-			if( typeof v === 'object' ){
- 				return Object.keys(v).map( function( k, vv ){
+			if( v && typeof v === 'object' ){
+				return Object.keys(v).map( function( k, vv ){
 					return cb( v[k], k ); }) }},
 		random: function( min, max ){
 			if( max == null ){ max = min; min = 0; }

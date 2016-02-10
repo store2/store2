@@ -89,6 +89,21 @@ define( ['./ndrscr'],function( _ ) {
 		else if( typeof d.html === 'string' ){
 			d.html = dom.c( 'li',{ html: d.html }	); }
 		return dom.c( 'ul', d ) }
+	dom.c_dl = function( d ){
+		var vv = [];
+		if( _.isArray( d )){
+			for( var i in d ){
+				vv.push( dom.c('dd',{html:d[i]}) ) }}
+		else if( typeof( d ) === 'object' ){
+			_.map( d, function( v, k ){
+				vv.push(dom.c('dt',{html:k}));
+				if( typeof( v ) === 'object' ){
+					vv.push( dom.c('dd',{html:dom.c_dl( v )}) ) }
+				else{
+					vv.push( dom.c('dd',{html:v}) ) }}) }
+		else{
+			vv.push( dom.c('dd',{html:d}) ) }
+		return dom.c('dl',{html:vv}) } 
 	dom.rm = function( el ){
 		if( _.isArray( el )){ 
 			for( var i in el ){ dom.rm( el[i] ); }
@@ -138,6 +153,12 @@ define( ['./ndrscr'],function( _ ) {
 			else{
 				for( var k in a ){ dom.append( el, a[k] ); } }}
 		return el; }
+	dom.insertbefore = function( el, ref ){
+		var prnt = ref.parentNode;
+		prnt.insertBefore( el, ref ) }
+	dom.insertafter = function( el, ref ){
+		var prnt = ref.parentNode;
+		prnt.insertBefore( el, ref.nextSibling ) }
 	dom.on = function( el, a ){
 		if( !_.isElement( el )){ return false; }
 		for( var k in a ){
@@ -175,6 +196,12 @@ define( ['./ndrscr'],function( _ ) {
 		if( typeof a === 'undefined' ){ return a; }
 		v = a.replace(/[^A-Za-z0-9]+/g, '-').toLowerCase();
 		return v.replace(/^-+/, ''); }
+
+	dom.box = function( a, r ){
+		var a = _.extend( a, { className: 'box' });
+			el = dom( 'div', a, r );
+		return el }
+
 
 	return dom;
 });
